@@ -1,0 +1,37 @@
+border-1px($color)
+    position relative
+    &:before
+        display block
+        position absolute
+        left 0
+        bottom 0
+        width 100%
+        border-top 1px solid $color
+        content ''
+/*去除1px线*/
+border-none()
+    /*去除的应用场景都是添加了线之后，所以只需要为after伪类覆盖display就可以*/
+    &:after
+        display none
+/*媒体查询不同的DPI，这里background-image路径只能是在相应的vue文件同级img文件夹下*/
+/*应该是webpack设置*/
+bg-image($url)
+    background-image url("img/"+$url+"@2x.png")
+    @media(-webkit-min-device-pixel-ratio:3),(min-device-pixel-ratio:3)
+        background-image url("img/"+$url+"@3x.png")
+/*文本不换行+显示省略符号来代表被修剪的文本，需要添加在目标元素上而不可以是父元素，无继承*/
+text-hidden-dot()
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+
+// 扩展点击区域
+extend-click()
+  position relative
+  &:before
+    content ''
+    position absolute
+    top -10px
+    left -10px
+    right -10px
+    bottom -10px
