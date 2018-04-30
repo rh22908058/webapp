@@ -62,7 +62,7 @@ export default class Song {
     if (i < 0) {
       return
     }
-    console.log(this.handler)
+    //console.log(this.handler)
     this.handler({
       txt: this.lines[i].txt,
       lineNum: i
@@ -96,7 +96,7 @@ export default class Song {
     this.startStamp = +new Date() - startTime
 
     if (!skipLast) {
-      console.log('callhandler:'+this.curNum)
+      //console.log('callhandler:'+this.curNum)
       this._callHandler(this.curNum - 1)
     }
     //清除定时器，重新调用播放的内部方法

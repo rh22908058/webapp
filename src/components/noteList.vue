@@ -3,18 +3,16 @@
     <scroll ref="scroll" class="note-wrapper" :data="notes" :pullup="pullup" :listenScroll="listenScroll" @scrollToEnd="loadMore">
         <ul class="note-content">
             <li v-for="(item,index) in notes" class="item" @click="selectItem(item)">
-                <!--如果不事先指定图片高度，图片还未加载完毕时bs就已经计算了滚动区的高度，这个高度是错误的，造成不能滚动到最后的现象-->
-                <div class="pic-wrapper">
-                    <!--图片尺寸176*262-->
-                    <img height="262" v-lazy="item.image" class="pic">
+                <img v-lazy="item.image" class="image">
+                <div class="info">
+                  <div class="line">
+                    <span class="name">{{item.category_name}}</span>
+                    <span class="average">{{formatMoney(item.fee_str)}}</span>
+                  </div>
+                  <div class="line">
+                    <span class="director">时间:{{item.begin_time}}-{{item.end_time}}</span>
+                  </div>
                 </div>
-                <!--
-                <div class="content" v-html="item.content"></div>
-                -->
-                <div class="content" v-html="item.category_name"></div>
-                <div class="padding" v-html="item.begin_time"></div>
-                <div class="padding" v-html="item.end_time"></div>
-                <div class="padding" v-html="item.fee_str"></div>
             </li>
             <loading v-show="hasMore" title=""></loading>
         </ul>
@@ -48,6 +46,9 @@ export default {
     created(){
         this.getData()
     },
+    activated(){
+        this.setFullScreen(false)
+    },
     methods:{
         getData(){
             this.hasMore = true
@@ -58,7 +59,8 @@ export default {
                     this._checkMore(res)
                 }else{
                     console.log('error')
-                }             
+                }
+                console.log(this.notes)             
             })
         },
         loadMore() {
@@ -74,12 +76,19 @@ export default {
         },
         selectItem(item){
             this.$router.push({
-                path: `/notes/${item.id}`
+                path: `/notes/${item.id}`,
+                query: {item}
             })
-            this.setNoteContent(item.content)
+        },
+        formatMoney(item){
+            if(typeof item===Number){
+                return `${item}元`
+            }else{
+                return item
+            }
         },
         ...mapMutations({
-            setNoteContent: 'SET_NOTE_CONTENT'
+            setFullScreen: 'SET_FULL_SCREEN'
         })
     }
 }
@@ -88,6 +97,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped style lang="stylus" rel="stylesheet/stylus">
     @import "../common/stylus/variable"
+    @import "../common/stylus/mixin"
     .notes
         position relative
         font-size 14px
@@ -98,15 +108,38 @@ export default {
             overflow hidden
             width 100%
             .item
-                padding 0 0 15px 0       
-                .pic-wrapper
-                    width 175px
-                    height 260px
-                    margin 10px auto
-                .content
-                    padding 10px 0 0 20px
-                    font-size $font-size-large
-                .padding
-                    text-align right
-                    padding 10px 20px 0 0
+                height 90px
+                border-1px(#ccc)
+                padding-left 30px
+                text-align left
+                display flex
+                color #666
+                .image
+                    margin-top 5px
+                    height 80px
+                    border 1px solid #333
+                    border-radius 5px
+                .info
+                    flex 1
+                    padding 10px 0 10px 20px
+                    .line
+                        display flex
+                        padding-top 5px
+                        .name
+                            flex 1
+                            height 40px
+                            line-height 40px
+                            font-size $font-size-medium-x
+                            text-hidden-dot()
+                        .average
+                            flex 0 0 50px
+                            padding-right 20px
+                            height 40px
+                            line-height 40px
+                            font-size $font-size-small-s
+                            text-hidden-dot()
+                        .director
+                            height 20px
+                            line-height 20px
+                            font-size $font-size-small
 </style>

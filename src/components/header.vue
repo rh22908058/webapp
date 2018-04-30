@@ -21,18 +21,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped  style lang="stylus" rel="stylesheet/stylus">
 .header
-    position fixed
-    top 0
     display flex
     width 100%
     height 50px
     line-height 50px
     justify-content space-between
-    background-color #eee
+    background-color #000
     .item
         width 50px
         text-align center
         font-size 18px
         cursor pointer
+        color #fff
 
 </style>

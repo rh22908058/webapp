@@ -1,7 +1,8 @@
 <template>
-  <div class="">123456
+  <div class="">
   </div>
 </template>
+
 <script>
 export default {
     data(){

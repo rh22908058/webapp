@@ -2,10 +2,10 @@
   <transition name="slide">
     <div class="note">
       <div class="back" @click="back">
-        <i class="icon-arrow_lift"></i>
+        <i class="icon-circle-left"></i>
       </div>
-      <scroll class="content-wrapper" :data="noteArr">
-        <div class="content" v-html="noteContent"></div>
+      <scroll class="content-wrapper" :data="[note]">
+        <div class="content" v-html="note.content"></div>
       </scroll>
     </div>
   </transition>
@@ -17,19 +17,13 @@ import Scroll from '../base/scroll'
 export default {
   data(){
       return {
-          noteContent:"",
-          noteArr:[]
+          note:{}
       }
   },
   created(){
-    //获取vuex同城内容数组的最后一个元素(就是当前notelist页面点击的note内容)
-    this.noteContent=this.noteContentList[this.noteContentList.length-1]
-    this.noteArr.push(this.noteContent)
-  },
-  computed:{
-    ...mapGetters([
-      'noteContentList'
-    ])
+    this.note=this.$route.query.item
+    //content中包含了图片标签<img>，无法用CSS规定宽度，这里将img标签去掉
+    this.note.content=this.note.content.replace(/<img[^>]+>/ig,'')
   },
   methods:{
     back() {
@@ -58,13 +52,16 @@ export default {
     bottom 40px
     overflow hidden
     width 100%
-    background $color-background
-    color $color-theme
+    background #fff
+    color #333
     .content-wrapper
       height 100%
+      padding-top 30px
       .content
         padding 20px 20px 0 20px
         line-height 1.5
+        img
+          width 200px
     .back
       margin-left 10px
       padding 10px 10px 10px 10px
@@ -72,10 +69,9 @@ export default {
       top 8px
       left 0
       border-radius 50%
-      background-color #999
       opacity 0.5
       z-index 50
-      .icon-arrow_lift
-        font-size 14px
+      .icon-circle-left
+        font-size 18px
         color #000
 </style>

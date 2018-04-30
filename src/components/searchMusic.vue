@@ -122,7 +122,7 @@ export default {
                     //这里只需要调用playsong的action，这样currentSong就会改变，在player组件中检测currentSong加载歌词
                     //这里不可以在searchMusic中加载歌词，因为歌词加载是异步的，无法与player组件进行通信(除非用vuex)
                     this.setPlayList(list)
-                    this.playSong(0)
+                    this.playSong(0,true)
                 }
             })
         },
@@ -163,7 +163,7 @@ export default {
 @import "../common/stylus/mixin"
 .search
     position fixed
-    top 0
+    top 50px
     left 0
     right 0
     bottom 50px
@@ -191,7 +191,7 @@ export default {
             padding 5px 3px
     .content
         position fixed
-        top 50px
+        top 100px
         left 0
         right 0
         bottom 40px

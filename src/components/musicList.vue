@@ -1,6 +1,9 @@
 <template>
   <div class="music-list">
-    <v-header @left="left" @right="right"></v-header>
+    <div class="header">
+      <div class="item" @click="left"><i class="icon-search"></i></div>
+      <div class="item" @click="right"><i class="icon-user"></i></div>
+    </div>
     <scroll ref="scroll" class="wrapper" :data="songs">
       <ul>
         <!--子元素占据了li的所有区域，点击li的目标元素必然是其子元素之一，子元素冒泡加上li本身必然会触发两次click怎么解决？-->
@@ -26,6 +29,7 @@
 </template>
 
 <script>
+/*有时候npm安装组件报错无权限，加--no-optional即可，如npm install vue-infinite-scroll --save --no-optional*/
 import {test,searchMusic,getMusics,getNewList} from '../api/music'
 import {createSong} from '../common/js/song'
 import header from './header'
@@ -60,6 +64,10 @@ export default {
     })
     */
     //getMusics()  
+    this.getMusicList()
+  },
+  activated(){
+    console.log(111)
     this.getMusicList()
   },
   methods:{
@@ -102,7 +110,7 @@ export default {
       }
       console.log('click')
       //console.log(this.$refs.song)
-      this.playSong(index)
+      this.playSong(index,false)
     },
     left(){
       this.searchFlag=true
@@ -147,7 +155,6 @@ export default {
   computed:{
   },
   components:{
-    'v-header':header,
     Scroll,
     Loading,
     'search-music':SearchMusic,
@@ -170,6 +177,19 @@ export default {
 <style scoped style lang="stylus" rel="stylesheet/stylus">
 @import "../common/stylus/variable"
 @import "../common/stylus/mixin"
+.header
+    display flex
+    width 100%
+    height 50px
+    line-height 50px
+    justify-content space-between
+    background-color #000
+    .item
+        width 50px
+        text-align center
+        font-size 18px
+        cursor pointer
+        color #fff
 .wrapper
   position fixed
   top 50px
@@ -197,7 +217,7 @@ export default {
       font-size $font-size-small-s
     .icon
       position absolute
-      right 10px
+      right 0
       top 0
       height 100%
       width 60px
