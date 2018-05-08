@@ -68,7 +68,8 @@ export default {
   },
   activated(){
     console.log(111)
-    this.getMusicList()
+    //this.getMusicList()
+    this.songs=this.playlist
   },
   methods:{
     //酷狗音乐
@@ -153,6 +154,9 @@ export default {
     ])
   },
   computed:{
+    ...mapGetters([
+        'playlist'
+    ])
   },
   components:{
     Scroll,
